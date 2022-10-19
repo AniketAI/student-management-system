@@ -1,0 +1,36 @@
+{% extends 'admintemp/base.html' %}
+
+{% block body %}
+
+        <div class="container">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th scope="col">S.No.</th>
+                <th scope="col">Id</th>
+                <th scope="col">Semester</th>
+                <th scope="col">Section</th>
+                <th scope="col">options</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for sems in show_sem_data %}
+              <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ sems.id }}</td>
+                <td>{{ sems.semester }}</td>
+                <td>{{ sems.section }}</td>
+                <td>
+                <a class="btn btn-outline-success" data-bs-toggle="modal"  href="" role="button">Edit</a>
+                <a class="btn btn-outline-danger"  href="{% url 'delete'  sems.id %}" role="button">Delete</a>
+                </td>                
+              </tr>
+              
+              {% endfor %}
+
+
+             
+
+
+  
+{% endblock body %}

@@ -1,0 +1,9 @@
+{% extends 'admintemp/base.html' %}
+
+{% block body %}
+<a type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Launch demo modal
+</a>
+<a class="btn btn-outline-primary" href="{% url 'add_session' %}" role="button">Add Sessions</a>
+
+{% endblock body %}

@@ -1,0 +1,71 @@
+{% extends 'studenttemp/base.html' %}
+      
+  
+
+{% block body %}
+  <a class="btn btn-outline-success" href="#" role="button">View Attendence</a>
+  <a class="btn btn-outline-danger" href="{% url 'logout_user' %}" role="button">LOGOUT</a>
+
+
+
+  {% for name in student_details %}
+  <label>{{ name.username }} </label>
+  {% endfor %}
+
+
+
+
+  <div class="col">
+    <div class="border">
+
+      {% if todos|length == 0 %}
+
+      <div class="p-4">
+        <br>
+        <br>
+        <div class="alert alert-info text-center">
+          <p class="" style="font-size: 30px;">No Todos</p>
+        </div>
+        <br>
+        <br>
+      </div>
+
+      {%else%}
+      <div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Title</th>
+              <th>Status</th>
+              <th>Priority</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            {% for todo in todos %}
+            <tr>
+              <td>{{forloop.counter}}</td>
+              <td>{{todo.title}}</td>
+              <td>
+                {% if todo.status == 'C'%}
+                ✅
+                {%else%}
+                🕒
+                {%endif%}
+              </td>
+              <td>{{todo.priority}}</td>
+            </tr>
+            {%endfor%}
+
+
+          </tbody>
+        </table>
+      </div>
+      {%endif%}
+
+    </div>
+  </div> 
+{% endblock body %}
+            

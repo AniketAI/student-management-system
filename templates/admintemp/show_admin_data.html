@@ -1,0 +1,110 @@
+{% extends 'admintemp/base.html' %}
+
+{% block body %}
+
+        <div class="container">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th scope="col">S.No.</th>
+                <th scope="col">Id</th>
+                <th scope="col">is_superuser</th>
+                <th scope="col">is_staff</th>
+                <th scope="col">is_active</th>
+                <th scope="col">Email</th>
+                {% comment %} <th scope="col">Password</th> {% endcomment %}
+                <th scope="col">Username</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Date Joined</th>
+                <th scope="col">User Type</th>
+                <th scope="col">options</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for users in show_data %}
+              <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ users.id }}</td>
+                <td>{{ users.is_superuser }}</td>
+                <td>{{ users.is_staff }}</td>
+                <td>{{ users.is_active }}</td>
+                <td>{{ users.email }}</td>
+                {% comment %} <td>{{ users.password }}</td> {% endcomment %}
+                <td>{{ users.username }}</td>
+                <td>{{ users.first_name }}</td>
+                <td>{{ users.last_name }}</td>
+                <td>{{ users.date_joined }}</td>
+                <td>{{ users.user_type }}</td>
+                <td>
+                <a class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal-{{ users.id }}" href="" role="button">Edit</a>
+                <a class="btn btn-outline-danger"   href="{% url 'maindelete'  users.id %}" role="button">Delete</a>
+                </td>                
+              </tr>
+              
+              {% endfor %}
+
+
+              <!-- Modal -->
+              {% for users in show_data %}
+              <div class="modal fade" id="exampleModal-{{ users.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">Update Details</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">is_superuser</label>
+                        <input type="text" class="form-control" value="{{ users.is_superuser }}" id="exampleFormControlInput1" placeholder="name@example.com">
+                      </div>
+                      <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">is_staff </label>
+                        <input type="text" class="form-control" value="{{ users.is_staff }}" id="exampleFormControlInput1" placeholder="name@example.com">
+                      </div>
+                      <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">is_active</label>
+                        <input type="text" class="form-control" value="{{ users.is_active }} " id="exampleFormControlInput1" placeholder="name@example.com">
+                      </div>
+                      <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Email</label>
+                        <input type="text" class="form-control" value="{{ users.email }}" id="exampleFormControlInput1" placeholder="name@example.com">
+                      </div>
+                      <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Username</label>
+                        <input type="text" class="form-control" value="{{ users.username }}" id="exampleFormControlInput1" placeholder="name@example.com">
+                      </div>
+                      <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">First Name</label>
+                        <input type="text" class="form-control" value="{{ users.first_name }}" id="exampleFormControlInput1" placeholder="name@example.com">
+                      </div>
+                      <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" value="{{ users.last_name }}" id="exampleFormControlInput1" placeholder="name@example.com">
+                      </div>
+                      <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Date Joined</label>
+                        <input type="text" class="form-control" value="{{ users.date_joined }}" id="exampleFormControlInput1" placeholder="name@example.com">
+                      </div>
+                      <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">User Type </label>
+                        <input type="text" class="form-control" value="{{ users.user_type }}" id="exampleFormControlInput1" placeholder="name@example.com">
+                      </div>                                    
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </tbody>
+          </table>
+        </div>
+        {% endfor %}
+
+
+
+  
+{% endblock body %}
