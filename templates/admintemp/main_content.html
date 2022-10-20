@@ -6,4 +6,12 @@
 </a>
 <a class="btn btn-outline-primary" href="{% url 'add_session' %}" role="button">Add Sessions</a>
 
+{% for stud in students %}
+{{stud.id}}
+{{stud.gender}}
+{{stud.address}}
+{{stud.username}}
+
+{% endfor %}
+
 {% endblock body %}

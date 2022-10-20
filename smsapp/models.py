@@ -7,7 +7,7 @@ from django.dispatch import receiver
 class CustomUser(AbstractUser):
     user_type_data = ((1, "ADMIN"), (2, "HOD"), (3, "Staff"), (4, "Student"))
     user_type = models.CharField(default=1, choices=user_type_data, max_length=10)
-
+    
 class SessionYearModel(models.Model):
     id = models.AutoField(primary_key=True)
     session_start_year = models.DateField()
@@ -62,9 +62,10 @@ class Students(models.Model):
     gender = models.CharField(max_length=50)
     profile_pic = models.FileField()
     address = models.TextField()
-    course_id = models.ForeignKey(Courses, on_delete=models.DO_NOTHING, default=1)
+    course_id = models.ForeignKey(Courses, on_delete=models.CASCADE, default=1)
     session_year_id = models.ForeignKey(SessionYearModel, on_delete=models.CASCADE)
-    semesters = models.ForeignKey(Semesters, on_delete=models.DO_NOTHING, default=1)
+    semesters = models.ForeignKey(Semesters, on_delete=models.CASCADE)
+    section = models.CharField(max_length=5, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()
@@ -110,7 +111,7 @@ def create_user_profile(sender, instance, created, **kwargs):
         if instance.user_type == 3:
             Staffs.objects.create(admin=instance)
         if instance.user_type == 4:
-            Students.objects.create(admin=instance, course_id=Courses.objects.get(id=1), session_year_id=SessionYearModel.objects.get(id=1),semesters_id=Semesters.objects.filter(semesters_id=1).first(), address="", profile_pic="", gender="")
+            Students.objects.create(admin=instance, course_id=Courses.objects.get(id=1), session_year_id=SessionYearModel.objects.get(id=1),semesters=Semesters.objects.filter(id=20),section="", address="", profile_pic="", gender="")
     
 
 @receiver(post_save, sender=CustomUser)
@@ -122,4 +123,4 @@ def save_user_profile(sender, instance, **kwargs):
     if instance.user_type == 3:
         instance.staffs.save()        
     if instance.user_type == 4:
-        instance.students.save()
+        instance.students.save(force_insert=True)

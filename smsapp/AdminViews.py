@@ -14,7 +14,9 @@ from .forms import AddStudentForm, EditStudentForm, TODOForm
 
 def adminmain_home(request):
     todos = TODO.objects.filter(user = request.user).order_by('priority')
-    context = {"todos":todos}
+    students = Students.objects.all()
+    context = {"todos":todos,
+               "students":students}
     return render(request, "admintemp/main_content.html",context)
 
 def show_admin_data(request):
@@ -208,10 +210,9 @@ def add_mainstudent_save(request, **extrafields):
             else:
                 profile_pic_url = None
 
-            
-
+        
             # try:
-                user = CustomUser.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name, user_type=4, **extrafields)
+                user = CustomUser.objects.create(username=username,password=password, email=email, first_name=first_name, last_name=last_name, user_type=4)
                 
                 user.students.address = address
 
@@ -225,13 +226,13 @@ def add_mainstudent_save(request, **extrafields):
                 user.students.gender = gender
                 user.students.profile_pic = profile_pic_url
 
-                semester_obj = Semesters.objects.filter(id=semesters_id).first()
-                user.students.semesters_id = semesters_id
+                semesters_obj = Semesters.objects.filter(id=semesters_id)
+                user.students.semesters = semesters_obj
 
-                semester_section_obj = Semesters.objects.filter(id=semesters_section_id).first()
-                user.students.semesters_section_id = semesters_section_id
-
+                
+                user.students.section = semesters_section_id
                 user.save()
+
     
                 messages.success(request, "Student Added Successfully!")
                 return redirect('add_mainstudent')
